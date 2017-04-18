@@ -4,8 +4,10 @@ class Fixnum
     user_input_array = self.to_s().split("")
     # returns ["1","2","3"...]
     final_words = []
-    first_twenty = Hash.new()
-    first_twenty = {
+    ninety_hash = Hash.new()
+    large_numbers = Hash.new()
+
+    ninety_hash = {
       1 => "one",
       2 => "two",
       3 => "three",
@@ -25,13 +27,57 @@ class Fixnum
       17 => "seventeen",
       18 => "eighteen",
       19 => "nineteen",
+      20 => "twenty",
+      30 => "thirty",
+      40 => "forty",
+      50 => "fifty",
+      60 => "sixty",
+      70 => "seventy",
+      80 => "eigthy",
+      90 => "ninety"
     }
 
-    if ((user_input_array[0] == "1") && (user_input_array.length == 1))
-      final_words.push("one")
-    else
-      final_words.push(first_twenty[start_num])
+    large_nums = {
+      "tr" => "trillion",
+      "b" => "billion",
+      "m" => "million",
+      "th" => "thousand",
+      "h" => "hundred"
+    }
+
+
+    while (user_input_array.length != 0) do
+      place = user_input_array.length
+
+      if (place == 13)
+        final_words.push(ninety_hash[user_input_array[0]])
+        final_words.push(large_nums["tr"])  # CONTEXT PLACE VALUE WORD
+      elsif ((place < 13) && (place >= 10))
+        final_words.push(large_nums["b"])   # CONTEXT PLACE VALUE WORD
+      elsif ((place < 10) && (place >= 7))
+        final_words.push(large_nums["m"])   # CONTEXT PLACE VALUE WORD
+      elsif ((place < 7) && (place >= 4))
+        final_words.push(large_nums["th"])  # CONTEXT PLACE VALUE WORD
+      elsif (place == 3)
+        final_words.push(large_nums["h"])   # CONTEXT PLACE VALUE WORD
+      else
+        "nothin"
+      end
+
+      user_input_array.shift()
+      # remove the number just finished processing
+      # user_input_array.shift()
     end
+# binding.pry
+
+
+
+
+    # if ((user_input_array[0] == "1") && (user_input_array.length == 1))
+    #   final_words.push("one")
+    # else
+    #   final_words.push(first_twenty[start_num])
+    # end
 
     final_words[0]
   end
