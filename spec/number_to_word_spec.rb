@@ -13,7 +13,7 @@ describe('Fixnum#convert') do
   # end
 
   it("lookup place") do
-    expect((100).convert()).to(eq("hundred"))
+    expect((475).convert()).to(eq(""))
   end
 
 
