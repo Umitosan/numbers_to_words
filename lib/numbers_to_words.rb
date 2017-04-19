@@ -56,7 +56,6 @@ class Fixnum
 
     while (user_input_array.length != 0) do
       place = user_input_array.length
-
       if (place == 13)
         final_words.push(first_nine[user_input_array[0].to_i])
         final_words.push(large_nums["tr"])  # CONTEXT PLACE VALUE WORD
@@ -86,6 +85,13 @@ class Fixnum
       if (user_input_array.length != 0)
         user_input_array.shift()
       end
+
+      2.times {
+        if (user_input_array[0] == "0")
+          user_input_array.shift()
+          # user_input_array
+        end
+      }
 
     end
 
