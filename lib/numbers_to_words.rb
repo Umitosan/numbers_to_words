@@ -53,95 +53,71 @@ class Fixnum
       "h" => "hundred"
     }
 
-     three_dig = Proc.new { |len|
-      if (len == 1)
-        final_words.push(first_nine[user_input_array[0].to_i])
-        user_input_array.shift()
-      elsif (len == 2)
-        if (user_input_array[0] == "1")
-          final_words.push(tens[user_input_array[1].to_i])
-          2.times { user_input_array.shift() }
-        else
-          final_words.push(twenties[user_input_array[0].to_i])
+
+    three_dig = Proc.new { |len|
+
+      while (len != 0) do
+        if (len == 1)
+          final_words.push(first_nine[user_input_array[0].to_i])
           user_input_array.shift()
+          len -= 1
+        elsif (len == 2)
+          if (user_input_array[0] == "1")
+            final_words.push(tens[user_input_array[1].to_i])
+            2.times { user_input_array.shift() }
+            len -= 2
+          else
+            final_words.push(twenties[user_input_array[0].to_i])
+            user_input_array.shift()
+            len -= 1
+          end
+        elsif (len == 3)
+          final_words.push(first_nine[user_input_array[0].to_i])
+          final_words.push(large_nums["h"])
+          user_input_array.shift()
+          len -= 1
+        else
+          "nope"
         end
-      elsif (len == 3)
-        final_words.push(first_nine[user_input_array[0].to_i])
-        final_words.push(large_nums["h"])
-        user_input_array.shift()
-      else
-        "nope"
+        # if ((user_input_array[0] = "0") && (len != 0))
+        #   user_input_array.shift()
+        #   len -= 1
+        # end
       end
+
     }
 
 
     while (user_input_array.length != 0) do
       place = user_input_array.length # quick shortcut variable
       nine_lookup = first_nine[user_input_array[0].to_i] #shortcut to grab first 9 hash lookup
-
       if (place < 4)
         three_dig.call(place)
       elsif ((place < 7) && (place >= 4))
-        final_words.push(nine_lookup)
+        place2 = place - 3
+        three_dig.call(place2)
         final_words.push(large_nums["th"])
-        user_input_array.shift()
       elsif ((place < 10) && (place >= 7))
-        final_words.push(nine_lookup)
+        place2 = place - 6
+        three_dig.call(place2)
         final_words.push(large_nums["m"])
-        user_input_array.shift()
       elsif ((place < 13) && (place >= 10))
-        final_words.push(nine_lookup)
+        place2 = place - 9
+        three_dig.call(place2)
         final_words.push(large_nums["b"])
-        user_input_array.shift()
       elsif (place == 13)
-          final_words.push(nine_lookup)
-          final_words.push(large_nums["tr"])
-          user_input_array.shift()
+        place2 = place - 12
+        three_dig.call(place2)
+        final_words.push(large_nums["tr"])
       else
         "nothing"
       end
-
-      # if (place == 13)
-      #   final_words.push(first_nine[user_input_array[0].to_i])
-      #   final_words.push(large_nums["tr"])
-      #   user_input_array.shift()
-      # elsif ((place < 13) && (place >= 10))
-      #   final_words.push(large_nums["b"])
-      # elsif ((place < 10) && (place >= 7))
-      #   final_words.push(large_nums["m"])
-      # elsif ((place < 7) && (place >= 4))
-      #   final_words.push(large_nums["th"])
-      # elsif (place == 3)
-      #   final_words.push(first_nine[user_input_array[0].to_i])
-      #   final_words.push(large_nums["h"])
-      # elsif (place == 2)
-      #   if (user_input_array[0] == "1")
-      #     final_words.push(tens[user_input_array[1].to_i])
-      #     2.times { user_input_array.shift() }
-      #   else
-      #     final_words.push(twenties[user_input_array[0].to_i])
-      #     user_input_array.shift()
-      #   end
-      # elsif (place == 1)
-      #   final_words.push(first_nine[user_input_array[0].to_i])
-      #   user_input_array.shift()
-      # else
-      #   "nothing"
-      # end
-
-      # if (user_input_array.length != 0)
-      #   user_input_array.shift()
-      # end
-
-      # handle for zeros in a number like 10000000 after poping the 1 off
+      # git rid of nasty hanging 0s
       while (user_input_array[0] == "0") do
         user_input_array.shift()
       end
-
     end
 
-    # if ((user_input_array[0] == "1") && (user_input_array.length == 1))
-    #   final_words.push("one")
 
     final_words.join(" ")
   end
